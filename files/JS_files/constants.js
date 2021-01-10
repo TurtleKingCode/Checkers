@@ -20,5 +20,16 @@ function arg(type, arguments) {
 				darkColor: arguments[5],
 				checkerCount: arguments[6]
 			};
+			break;
+		case 'checker':
+			return {
+				square: {
+					x: arguments[0],
+					y: arguments[1]
+				},
+				master: arguments[3],
+				color: arguments[4]
+			}
+			break;
 	}
 }
