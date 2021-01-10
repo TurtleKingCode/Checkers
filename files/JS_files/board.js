@@ -2,15 +2,7 @@ class Board {
 	constructor(infoSheet, checkersLocation) {
 		this.info = infoSheet
 			? infoSheet
-			: {
-				width: width,
-				height: height,
-				rows: 8,
-				columns: 8,
-				lightColor: '#ffffff',
-				darkColor: '#00bfff',
-				checkerCount: 24
-			};
+			: arg('board', [width, height, 8, 8, '#ffffff', '#00bfff', 24])
 		this.createSheet = function () {
 			let sheet = [];
 			for (let r = 0; r < this.info.rows; r++) {

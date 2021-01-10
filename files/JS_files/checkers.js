@@ -1,0 +1,5 @@
+class Checkers {
+	constructor(square) {
+		
+	}
+}
