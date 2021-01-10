@@ -23,12 +23,12 @@ class Board {
 			return sheet;
 		}
 		this.sheet = this.createSheet();
-		this.draw = function () {
-			this.sheet.forEach(x => x.forEach((y) => {
-				fill(y.color);
-				noStroke();
-				rect(y.point.x, y.point.y, y.width, y.height)
-			}));
-		}
+	}
+	draw = function () {
+		this.sheet.forEach(x => x.forEach((y) => {
+			fill(y.color);
+			noStroke();
+			rect(y.point.x, y.point.y, y.width, y.height)
+		}));
 	}
 }
