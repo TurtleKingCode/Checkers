@@ -8,7 +8,7 @@ var DEFAULT = {
 	checkerCount: 24
 }
 
-function arg(type, arguments) {
+function infoMaker(type, arguments) {
 	switch (type) {
 		case 'board':
 			return {
@@ -23,13 +23,32 @@ function arg(type, arguments) {
 			break;
 		case 'checker':
 			return {
-				square: {
-					x: arguments[0],
-					y: arguments[1]
+				board: arguments[0],
+				player: arguments[1],
+				width: arguments[0].info.width/arguments[0].info.columns,
+				height: arguments[0].info.height/arguments[0].info.rows,
+				pos: {
+					x: arguments[2],
+					y: arguments[3]
 				},
-				master: arguments[3],
+				square: {
+					x: convPoint(arguments[2]) * arguments[0].info.width/arguments[0].info.columns / 2,
+					y: convPoint(arguments[3]) * arguments[0].info.height/arguments[0].info.rows / 2
+				},
 				color: arguments[4]
 			}
 			break;
+		case 'player':
+			return {
+				board: arguments[0],
+				side: arguments[1],
+				color: arguments[2],
+				name: arguments[3]
+			}
+			break;
 	}
+}
+
+function convPoint(x, to) {
+	return to ? (x - 1) / 2 : x * 2 + 1;
 }

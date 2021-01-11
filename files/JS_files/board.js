@@ -2,7 +2,7 @@ class Board {
 	constructor(infoSheet, checkersLocation) {
 		this.info = infoSheet
 			? infoSheet
-			: arg('board', [width, height, 8, 8, '#ffffff', '#00bfff', 24])
+			: infoMaker('board', [width, height, 8, 8, '#ffffff', '#00bfff', 24])
 		this.createSheet = function () {
 			let sheet = [];
 			for (let r = 0; r < this.info.rows; r++) {
@@ -15,7 +15,8 @@ class Board {
 							y: (r * 2 + 1) * (this.info.height / (this.info.rows * 2))
 						},
 						width: this.info.width / this.info.columns,
-						height: this.info.height / this.info.rows
+						height: this.info.height / this.info.rows,
+						checker: undefined
 					};
 				}
 				sheet[r] = rowArray;
