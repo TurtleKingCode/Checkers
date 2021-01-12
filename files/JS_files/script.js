@@ -13,7 +13,7 @@ function setup() {
 	checker = new Checker();
 	board.draw();
 	checker.draw();
-	var dummy = createGraphics(10, 10);
+	// var dummy = createGraphics(10, 10);
 }
 
 function draw() {
@@ -21,12 +21,23 @@ function draw() {
 
 }
 
-function mousePressed() {
+function mouseClicked() {
 	var pieces = board.sheet.map(x => x.map (x => x.checker));
 	for (var r in pieces) {
 		for (var c in pieces[r]) {
 			if (pieces[r][c] !== undefined) {
 				pieces[r][c].clicked();
+			}
+		}
+	}
+}
+
+function mouseMoved() {
+	var pieces = board.sheet.map(x => x.map (x => x.checker));
+	for (var r in pieces) {
+		for (var c in pieces[r]) {
+			if (pieces[r][c] !== undefined) {
+				pieces[r][c].mousedOver();
 			}
 		}
 	}

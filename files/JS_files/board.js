@@ -32,4 +32,7 @@ class Board {
 			rect(y.point.x, y.point.y, y.width, y.height)
 		}));
 	}
+	addChecker(x, y) {
+		this.sheet[x][y].checker = new Checker();
+	}
 }
