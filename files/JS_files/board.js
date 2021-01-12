@@ -1,21 +1,23 @@
 class Board {
-	constructor(infoSheet, checkersLocation) {
-		this.info = infoSheet
-			? infoSheet
-			: infoMaker('board', [width, height, 8, 8, '#ffffff', '#00bfff', 24])
+	constructor(body, r = undefined, c = undefined, d = undefined, l = undefined) {
+		this.body = body;
+		this.rows = r != undefined ? r : 8;
+		this.columns = c != undefined ? c : 8;
+		this.darkColor = d != undefined ? d : '#00bfff';
+		this.lightColor = l != undefined ? l : '#ffffff';
+		this.boardHTML = '';
 		this.createSheet = function () {
 			let sheet = [];
-			for (let r = 0; r < this.info.rows; r++) {
+			for (let r = 0; r < this.rows; r++) {
 				let rowArray = [];
-				for (let c = 0; c < this.info.columns; c++) {
+				for (let c = 0; c < this.columns; c++) {
 					rowArray[c] = {
-						color: (c + r) % 2 == 0 ? this.info.lightColor : this.info.darkColor,
-						point: {
-							x: (c * 2 + 1) * (this.info.width / (this.info.columns * 2)),
-							y: (r * 2 + 1) * (this.info.height / (this.info.rows * 2))
+						color: (c + r) % 2 == 0 ? this.lightColor : this.darkColor,
+						colorCode: (c + r) % 2 == 0 ? 'light' : 'dark',
+						pos: {
+							x: c,
+							y: r
 						},
-						width: this.info.width / this.info.columns,
-						height: this.info.height / this.info.rows,
 						checker: undefined
 					};
 				}
@@ -25,14 +27,17 @@ class Board {
 		}
 		this.sheet = this.createSheet();
 	}
-	draw = function () {
-		this.sheet.forEach(x => x.forEach((y) => {
-			fill(y.color);
-			noStroke();
-			rect(y.point.x, y.point.y, y.width, y.height)
-		}));
-	}
-	addChecker(x, y) {
-		this.sheet[x][y].checker = new Checker();
+	show = function () {
+		this.boardHTML = '<table id = "board">';
+		for (var r in this.sheet) {
+			var rowString = `<tr id = "r${r}" class = "row">`;
+			for (var c in this.sheet[r]) {
+				rowString += `<td id = "r${r}-c${c}" class = "square" color_code = "${this.sheet[r][c].colorCode}"></td>`
+			}
+			this.boardHTML += rowString;
+			this.boardHTML +=  "</tr>";
+		}
+		this.boardHTML += "</table>";
+		this.body.html(this.boardHTML);
 	}
 }
