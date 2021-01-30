@@ -1,27 +1,15 @@
-var board;
-var player;
-var checker;
+import Board from "./board.js";
+import Game from "./game.js";
+// var board;
+// var player;
+// var checker;
 
-// function setup() {
-	// noCanvas();
-	// createCanvas(400, 400);
-	// background(0);
-	// rectMode(CENTER);
-	// imageMode(CENTER);
-	// board = new Board();
+var board = new Board(false, 8, 8);
+var game = new Game(board);
 
-var board = new Board($('body'));
-board.show();
-	// constructor(w, h, r, c, d, l) {
-	// player = new Player();
-	// console.log(player);
-	// checker = new Checker();
-	// board.draw();
-	// checker.draw();
-	// var dummy = createGraphics(10, 10);
-// }
+game.setupBoard();
+game.displayBoard();
 
-// function draw() {
-	// background(0);
-
-// }
+// var checker = document.querySelectorAll('.checker');
+// checker.forEach(x => x.addEventListener('click', (e) => console.log(board.convertHTMLId(e.target.id))));
+// board.executeMove('m R0C1 - R1C2');

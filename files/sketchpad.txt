@@ -6,3 +6,5 @@ this.columns = infoSheet.columns;
 this.lightColor = infoSheet.lightColor;
 this.darkColor = infoSheet.darkColor;
 this.checkerCount = infoSheet.checkerCount;
+
+Redesign your Checker.html setup

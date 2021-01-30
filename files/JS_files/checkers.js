@@ -1,53 +1,120 @@
-class Checker {
-	constructor(infoSheet) {
-		this.info = infoSheet ? infoSheet : infoMaker('checker', [board, player, 0, 0, '#000000']);
-		this.spot = this.info.board.sheet[this.info.pos.x][this.info.pos.y];
+export default class Checker
+{
+	constructor(board, row, column, player = undefined)
+	{
+		this.board = board;
+		this.row = row;
+		this.column = column;
+		this.player = player;
+
+		this.isKing = false;
 		this.inFocus = false;
-		this.king = false;
-		this.piece = createGraphics(this.info.width, this.info.height);
-	}
-	setup = function() {
-		this.info.board.sheet[this.info.pos.x][this.info.pos.y].checker = this;
-		this.info.player.checkers.push(this);
-	}
-	reset = function() {
-		this.info.square.x = convPoint(this.info.pos.x) * this.info.board.info.width/this.info.board.info.columns / 2;
-		this.info.square.y = convPoint(this.info.pos.y) * this.info.board.info.width/this.info.board.info.columns / 2;
-		this.spot = this.info.board.sheet[this.info.pos.x][this.info.pos.y];
-	}
-	draw = function() {
-		this.spot.checker = this;
-		this.piece.noStroke();
-		this.piece.fill(this.info.color);
-		this.piece.ellipseMode(CENTER);
-		this.piece.ellipse(this.info.width/2, this.info.height/2, this.info.width - 10, this.info.height - 10);
-		image(this.piece, this.info.square.x, this.info.square.y);
-	}
-	clicked = function() {
-		var distance = dist(this.info.square.x, this.info.square.x, mouseX, mouseY);
-		if (distance < this.info.width / 2) {
-			this.info.player.focus = this;
-			this.moveTo(1, 1);
+		this.id = `R${this.row}C${this.column}`;
+		this.alive = true;
+
+		this.cell = () => this.board.state[this.row][this.column];
+
+		this.moves = {
+			open: [],
+			kill: []
 		}
+		
+		this.state = {
+			killer: false,
+			prey: false
+		};
+
+		// this.html = ``;
 	}
-	mousedOver = function() {
-		var distance = dist(this.info.square.x, this.info.square.x, mouseX, mouseY);
-		if (distance < this.info.width / 2) {
-			cursor('pointer');
-		} else {
-			cursor('default');
-		}
+	resetVar()
+	{
+		this.id = `R${this.row}C${this.column}`;
+		this.cell().checker = this;
 	}
-	moveTo = function(x, y) {
-		var pos = y ? {x: x, y: y} : x;
-		var rows = this.info.board.rows;
-		var cols = this.info.board.columns;
-		if (pos.y > rows || pos.y < 0 || pos.x > cols || pos.x < 0) {
-			throw new Error(`Square ${pos} does not exist`);
+	checkMoves()
+	{
+		this.moves.open = [];
+		this.moves.kill = [];
+		var realSquares = [];
+		// Remove Fake Squares
+		for (var r in ['a', 'b']) {
+			for (var c in ['a', 'b']) {
+				var row = Number(this.row) + (r*2 - 1);
+				var col = Number(this.column) + (c*2 - 1);
+				if (row >= 0 && row < this.board.rows && col >= 0 && col < this.board.columns) {
+					realSquares.push(this.square(row, col));
+				}
+			}
 		}
-		this.spot.checker = undefined;
-		this.info.pos = pos;
-		this.reset();
-		this.draw()
+		// Checking for empty squares
+		for (var square in realSquares) {
+			square = realSquares[square];
+			if (square.checker === undefined) {
+				this.moves.open.push(square);
+			}
+		}
+		console.log(this.moves);
+	}
+	moveTo(c, r)
+	{
+		var moveID = `m ${this.id} - R${r}C${c}`
+		let r1 = this.row;
+		let c1 = this.column;
+		this.cell().checker = undefined;
+		this.row = r;
+		this.column = c;
+		this.resetVar();
+		this.board.checkBoard();
+		this.board.setPiecesHTML();
+		// this.html = $(`.square#${this.id}`).html();
+		return `m R${r1}C${c1} - ${this.id}`
+	}
+	clicked()
+	{
+		this.inFocus = true;
+		this.player.focus = this;
+		this.checkMoves();
+	}
+	toKing()
+	{
+		this.king = true;
+		$(`.checker#${this.id}`).html('K');
+	}
+	die()
+	{
+		this.alive = false;
+		this.cell().checker = undefined;
+		// this.cell() = undefined;
+		// delete this;
+		this.row = undefined;
+		this.column = undefined;
+		// this.board = undefined;
+	}
+	square(r, c)
+	{
+		return this.board.state[r][c];
+	}
+	readPoint(string)
+	{
+		var s = string.replace(/\s+|\(|\)/g, '').split(',');
+		return {
+			x: Number(s[0]),
+			y: Number(s[1])
+		};
+	}
+	convertPoint(object)
+	{
+		return `(${object.x}, ${object.y})`;
+	}
+	convertId(id)
+	{
+		var pos = this.readPoint(id);
+		return `R${pos.y}C${pos.x}`;
+	}
+	convertHTMLId(html)
+	{
+		html.replace('C', ', ').replace('R', '(');
+		html += ')';
+		return this.readPoint(html);
 	}
 }
