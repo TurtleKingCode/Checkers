@@ -30,8 +30,7 @@ What I did was, as he worked and explained the code, I did exactly what he did..
 
 Because of that majority of the ideas behind my code comes from Tim.
 
-To keep from becoming a code plagiarist, I will supply a link to Tim's YouTube channel, as well a link to the two playlists I spoke of, and his Github Reposotory below.
-
+To keep from becoming a code plagiarist, And to give Tim the credit he deserves, I will supply links to Tim's YouTube channel, the two playlists I spoke of, and his Github Reposotory below.
 
 Now, all that's not to say I didn't write any original code.  There were still multiple things that Tim's code didn't have that I added.
 
