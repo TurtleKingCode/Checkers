@@ -6,7 +6,7 @@ function minimax(position, depth, maxPlayer, game) {
   if (maxPlayer) {
     let maxEval = -Infinity;
     let bestMove = null;
-    let allMoves = getAllMoves(position, White, game);
+    let allMoves = getAllMoves(position, LightColor, game);
     for (let m = 0; m < allMoves.length; m++) {
       let move = allMoves[m];
       let evaluation = minimax(move, depth-1, false, game)[0];
@@ -19,7 +19,7 @@ function minimax(position, depth, maxPlayer, game) {
   } else {
     let minEval = Infinity;
     let bestMove = null;
-    let allMoves = getAllMoves(position, Red, game);
+    let allMoves = getAllMoves(position, DarkColor, game);
     for (let m = 0; m < allMoves.length; m++) {
       let move = allMoves[m];
       let evaluation = minimax(move, depth-1, true, game)[0];
@@ -63,9 +63,9 @@ function copyBoard() {
   board.board = _.cloneDeep(game.board.board);
   // board.board = JSON.parse(JSON.stringify(game.board.board));
   board.redLeft = game.board.redLeft;
-  board.whiteLeft = game.board.whiteLeft;
+  board.LightColorLeft = game.board.LightColorLeft;
   board.redKings = game.board.redKings;
-  board.whiteKings = game.board.whiteKings;
+  board.LightColorKings = game.board.LightColorKings;
   // console.log(board.board[1][2]).hello();
   return board;
 }

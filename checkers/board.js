@@ -6,12 +6,13 @@ class Board {
     this.redKings = 0;
     this.whiteKings = 0;
     this.createBoard();
+		this.hello = 'here';
   }
   drawSquares() {
-    background(Black);
+    background(BoardLightColor);
     for (let row = 0; row < Rows; row++) {
-      for (let col = row % 2; col < Cols; col += 2) {
-        fill(Red);
+      for (let col = (row + 1) % 2; col < Cols; col += 2) {
+        fill(BoardDarkColor);
         noStroke();
         square(row * squareSize, col * squareSize, squareSize);
       }
@@ -40,7 +41,7 @@ class Board {
 
     if (row == Rows -1 || row == 0) {
       piece.makeKing();
-      if (piece.color == White) {
+      if (piece.color == LightColor) {
         this.whiteKings += 1;
       } else {
         this.redKings += 1;
@@ -56,9 +57,9 @@ class Board {
       for (let col = 0; col < Cols; col++) {
         if (col % 2 == (row + 1) % 2) {
           if (row < 3) {
-            this.board[row].push(new Piece(row, col, White));
+            this.board[row].push(new Piece(row, col, LightColor));
           } else if (row > 4) {
-            this.board[row].push(new Piece(row, col, Red));
+            this.board[row].push(new Piece(row, col, DarkColor));
           } else {
             this.board[row].push(0);
           }
@@ -84,7 +85,7 @@ class Board {
       let piece = pieces[p];
       this.board[piece.row][piece.col] = 0;
       if (piece != 0) {
-        if (piece.color == Red) {
+        if (piece.color == DarkColor) {
           this.redLeft -= 1;
         } else {
           this.whiteLeft -= 1;
@@ -93,7 +94,7 @@ class Board {
     }
   }
   winner() {
-    return this.redLeft <= 0 ? White : this.whiteLeft <= 0 ? Red : null;
+    return this.redLeft <= 0 ? LightColor : this.whiteLeft <= 0 ? DarkColor : null;
   }
   getValidMoves(piece) {
     let moves = []; // {m: [], j: []}
@@ -101,13 +102,13 @@ class Board {
     let right = piece.col + 1;
     let row = piece.row; // This is the row that we are currently on
     // "row - 3" allows you to look real far up, but -1 is meant to keep us from going beyond the top
-    if (piece.color == Red || piece.king) { // "row - 1" tells us to look below the row that we are on
+    if (piece.color == DarkColor || piece.king) { // "row - 1" tells us to look below the row that we are on
       let leftRed = this.traverseLeftRed(row - 1, Math.max(row - 3, -1), -1, piece.color, left);
       let rightRed = this.traverseRightRed(row - 1, Math.max(row - 3, -1), -1, piece.color, right);
       moves.update(leftRed);
       moves.update(rightRed);
     }
-    if (piece.color == White || piece.king) {
+    if (piece.color == LightColor || piece.king) {
       let leftWhite = this.traverseLeftWhite(row + 1, Math.min(row + 3, Rows), 1, piece.color, left);
       let rightWhite = this.traverseRightWhite(row + 1, Math.min(row + 3, Rows), 1, piece.color, right);
       moves.update(leftWhite);

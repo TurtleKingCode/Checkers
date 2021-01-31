@@ -1,14 +1,15 @@
-var Width = 800,
-    Height = 800;
+var Width = 600,
+    Height = 600;
 var Rows = 8,
     Cols = 8;
 var squareSize = Math.floor(Width / Rows);
 var Crown, Glow_Crown;
 
 // rgb
-var Red = "#ff0000",
-    White = "#ffffff",
-    Black = "#000",
+var DarkColor = "#000",
+    LightColor = "#fff",
+		BoardDarkColor = "#000",
+		BoardLightColor = "deepskyblue",
     Blue = "#0000ff",
     Grey = "#808080";
 

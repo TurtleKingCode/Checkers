@@ -4,7 +4,7 @@ class Piece {
     this.col = col;
     this.color = color;
     this.king = false;
-    // this.direction = this.color === Red ? -1 : 1;
+    // this.direction = this.color === DarkColor ? -1 : 1;
     this.x = 0;
     this.y = 0;
     this.calcPos();
@@ -22,9 +22,9 @@ class Piece {
     let radius = Math.floor(squareSize/2) - this.padding;
     fill(this.color);
     strokeWeight(2);
-    stroke(Grey);
+		stroke(this.color === DarkColor ? LightColor : DarkColor)
     textAlign(CENTER, CENTER);
-    textSize(squareSize/2);
+    textSize(squareSize/2 - 5);
     circle(this.x, this.y, radius);
     if (this.king) {
       noStroke();
